@@ -30,7 +30,6 @@ type ApiErrorBody = {
 
 const roleOptions = [
   { value: "Admin", label: "Admin" },
-  { value: "Manager", label: "Manager" },
   { value: "Member", label: "Member" },
 ];
 
@@ -72,7 +71,6 @@ const generateTestPassword = () => {
 
 const getRoleVariant = (role: IUser["role"]) => {
   if (role === "Admin") return "danger";
-  if (role === "Manager") return "warning";
   return "info";
 };
 
@@ -257,12 +255,12 @@ export default function TeamPage() {
   );
 
   return (
-    <DashboardLayout allowedRoles={["Admin", "Manager"]}>
+    <DashboardLayout allowedRoles={["Admin"]}>
       <div className="space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-950">Team & Roles</h1>
-            <p className="mt-1 text-sm text-slate-500">Manage admins, managers, and members</p>
+            <p className="mt-1 text-sm text-slate-500">Manage admins and members</p>
           </div>
           <Button className="gap-2" onClick={openCreateForm}>
             <Plus className="h-4 w-4" />

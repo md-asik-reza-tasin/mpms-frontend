@@ -61,7 +61,7 @@ export default function TaskTable({ tasks, onEdit, onDelete, onStatusChange }: T
                   )}
                   {onStatusChange && task.status === "review" && (
                     <Button type="button" size="sm" onClick={() => onStatusChange(task._id, "done")}>
-                      Approve
+                      Approve as Done
                     </Button>
                   )}
                   {onDelete && (

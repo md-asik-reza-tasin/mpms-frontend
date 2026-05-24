@@ -12,7 +12,7 @@ export default function Home() {
     if (isAuthenticated()) {
       const user = getUser();
       if (user) {
-        if (user.role === "Admin" || user.role === "Manager") {
+        if (user.role === "Admin") {
           router.replace("/dashboard");
         } else {
           router.replace("/my-tasks");

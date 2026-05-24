@@ -2,7 +2,7 @@ export interface IUser {
   _id: string;
   name: string;
   email: string;
-  role: "Admin" | "Manager" | "Member";
+  role: "Admin" | "Member";
   department?: string;
   skills?: string[];
   createdAt: string;

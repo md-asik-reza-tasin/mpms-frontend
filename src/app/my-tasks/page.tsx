@@ -41,14 +41,13 @@ export default function MyTasksPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const user = getUser();
-  const isManager = user?.role === "Manager";
 
   const fetchTasks = async () => {
     setIsLoading(true);
     setError("");
     try {
       const data = await taskService.getTasks();
-      setTasks(isManager ? data : data.filter((task) => isAssignedToUser(task, user?._id)));
+      setTasks(data.filter((task) => isAssignedToUser(task, user?._id)));
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to fetch your tasks.");
     } finally {
@@ -67,7 +66,7 @@ export default function MyTasksPage() {
     ));
   }, [priorityFilter, statusFilter, tasks]);
 
-  const canChooseStatus = (status: ITask["status"]) => isManager || status !== "done";
+  const canChooseStatus = (status: ITask["status"]) => status !== "done";
 
   const updateStatus = async (task: ITask, status: ITask["status"]) => {
     if (!canChooseStatus(status)) return;
@@ -76,7 +75,7 @@ export default function MyTasksPage() {
     try {
       await taskService.updateTaskStatus(task._id, status);
       await fetchTasks();
-      setSuccess(status === "done" ? "Task approved as done." : "Task status updated.");
+      setSuccess("Task status updated.");
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to update task status.");
     } finally {
@@ -85,7 +84,7 @@ export default function MyTasksPage() {
   };
 
   return (
-    <DashboardLayout allowedRoles={["Member", "Manager"]}>
+    <DashboardLayout allowedRoles={["Member"]}>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-950">My Tasks</h1>
@@ -125,8 +124,8 @@ export default function MyTasksPage() {
                       <span>Due: <strong className="text-slate-700">{formatDate(task.dueDate)}</strong></span>
                       <span>Estimate: <strong className="text-slate-700">{task.estimateHours || 0}h</strong></span>
                     </div>
-                    {task.status === "review" && !isManager && (
-                      <p className="mt-3 text-xs font-semibold text-amber-700">Waiting for manager approval</p>
+                    {task.status === "review" && (
+                      <p className="mt-3 text-xs font-semibold text-amber-700">Waiting for admin approval</p>
                     )}
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -140,12 +139,8 @@ export default function MyTasksPage() {
                         { value: "todo", label: "To Do" },
                         { value: "in_progress", label: "In Progress" },
                         { value: "review", label: "Review" },
-                        ...(isManager ? [{ value: "done", label: "Done" }] : []),
                       ]}
                     />
-                    {isManager && task.status === "review" && (
-                      <Button type="button" size="sm" isLoading={updatingId === task._id} onClick={() => updateStatus(task, "done")}>Approve as Done</Button>
-                    )}
                     <Link href={`/my-tasks/${task._id}`}>
                       <Button type="button" variant="outline" size="sm" className="flex w-full items-center gap-2 sm:w-auto">
                         <Eye className="h-4 w-4" /> View Details

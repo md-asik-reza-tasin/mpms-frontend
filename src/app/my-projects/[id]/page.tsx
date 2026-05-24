@@ -66,7 +66,7 @@ export default function MyProjectDetailPage({ params }: PageProps) {
   };
 
   return (
-    <DashboardLayout allowedRoles={["Member", "Manager"]}>
+    <DashboardLayout allowedRoles={["Member"]}>
       {isLoading ? (
         <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
           <LoadingSpinner size="lg" />

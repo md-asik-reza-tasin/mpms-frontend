@@ -30,7 +30,7 @@ export default function LoginPage() {
       setAuth(response.token, response.user);
 
       // Redirect based on role
-      if (response.user.role === "Admin" || response.user.role === "Manager") {
+      if (response.user.role === "Admin") {
         router.push("/dashboard");
       } else {
         router.push("/my-tasks");

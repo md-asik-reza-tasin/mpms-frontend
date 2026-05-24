@@ -7,13 +7,14 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  allowedRoles?: ("Admin" | "Manager" | "Member")[];
+  allowedRoles?: ("Admin" | "Member")[];
 }
 
 export default function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
   const router = useRouter();
   const [isVerifying, setIsVerifying] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const allowedRolesKey = allowedRoles?.join("|") || "";
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -27,19 +28,18 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
       return;
     }
 
-    if (allowedRoles && !allowedRoles.includes(user.role)) {
-      // Redirect based on role to prevent page loops
-      if (user.role === "Member") {
-        router.replace("/my-tasks");
-      } else {
-        router.replace("/dashboard");
-      }
+    const allowedRoleList = allowedRolesKey
+      ? (allowedRolesKey.split("|") as ("Admin" | "Member")[])
+      : undefined;
+
+    if (allowedRoleList && !allowedRoleList.includes(user.role)) {
+      router.replace(user.role === "Admin" ? "/dashboard" : "/my-tasks");
       return;
     }
 
     setIsAuthorized(true);
     setIsVerifying(false);
-  }, [router, allowedRoles]);
+  }, [router, allowedRolesKey]);
 
   if (isVerifying || !isAuthorized) {
     return (

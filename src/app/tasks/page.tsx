@@ -111,7 +111,7 @@ export default function TasksPage() {
   };
 
   return (
-    <DashboardLayout allowedRoles={["Admin", "Manager"]}>
+    <DashboardLayout allowedRoles={["Admin"]}>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-950">Tasks</h1>

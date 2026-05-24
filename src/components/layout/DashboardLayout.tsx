@@ -7,7 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
-  allowedRoles?: ("Admin" | "Manager" | "Member")[];
+  allowedRoles?: ("Admin" | "Member")[];
 }
 
 export default function DashboardLayout({ children, allowedRoles }: DashboardLayoutProps) {

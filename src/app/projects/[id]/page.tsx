@@ -152,7 +152,7 @@ export default function ProjectDetailsPage({ params }: PageProps) {
   const progressPercent = project?.progressPercent ?? (totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0);
 
   return (
-    <DashboardLayout allowedRoles={["Admin", "Manager"]}>
+    <DashboardLayout allowedRoles={["Admin"]}>
       {isLoading ? (
         <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
           <LoadingSpinner size="lg" />

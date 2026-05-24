@@ -24,7 +24,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const user = getUser();
   const role = user?.role || "Member";
 
-  const adminManagerLinks = [
+  const adminLinks = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Projects", href: "/projects", icon: FolderKanban },
     { name: "Tasks", href: "/tasks", icon: CheckSquare },
@@ -38,7 +38,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     { name: "Progress", href: "/progress", icon: TrendingUp },
   ];
 
-  const links = role === "Admin" ? adminManagerLinks : role === "Manager" ? [...adminManagerLinks, ...memberLinks] : memberLinks;
+  const links = role === "Admin" ? adminLinks : memberLinks;
 
   return (
     <>

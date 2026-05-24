@@ -54,7 +54,7 @@ export default function MyProjectsPage() {
   };
 
   return (
-    <DashboardLayout allowedRoles={["Member", "Manager"]}>
+    <DashboardLayout allowedRoles={["Member"]}>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-950">My Projects</h1>

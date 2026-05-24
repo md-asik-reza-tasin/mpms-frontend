@@ -29,7 +29,7 @@ export default function NewProjectPage() {
   };
 
   return (
-    <DashboardLayout allowedRoles={["Admin", "Manager"]}>
+    <DashboardLayout allowedRoles={["Admin"]}>
       <div className="max-w-2xl mx-auto space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-950">Create New Project</h1>

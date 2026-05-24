@@ -35,7 +35,6 @@ export default function MyTaskDetailPage({ params }: PageProps) {
   const [attachmentUrl, setAttachmentUrl] = useState("");
   const [attachmentName, setAttachmentName] = useState("");
   const user = getUser();
-  const isManager = user?.role === "Manager";
 
   const fetchTask = useCallback(async () => {
     setIsLoading(true);
@@ -57,13 +56,13 @@ export default function MyTaskDetailPage({ params }: PageProps) {
 
   const updateStatus = async (status: ITask["status"]) => {
     if (!task) return;
-    if (!isManager && status === "done") return;
+    if (status === "done") return;
     setIsSaving(true);
     setSuccess("");
     try {
       const updated = await taskService.updateTaskStatus(task._id, status);
       setTask(updated);
-      setSuccess(status === "done" ? "Task approved as done." : "Task status updated.");
+      setSuccess("Task status updated.");
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to update status.");
     } finally {
@@ -124,7 +123,7 @@ export default function MyTaskDetailPage({ params }: PageProps) {
   const progressPercent = task?.status === "done" ? 100 : task?.status === "review" ? 75 : task?.status === "in_progress" ? 45 : 10;
 
   return (
-    <DashboardLayout allowedRoles={["Member", "Manager"]}>
+    <DashboardLayout allowedRoles={["Member"]}>
       {isLoading ? (
         <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
           <LoadingSpinner size="lg" />
@@ -157,16 +156,14 @@ export default function MyTaskDetailPage({ params }: PageProps) {
                   { value: "todo", label: "To Do" },
                   { value: "in_progress", label: "In Progress" },
                   { value: "review", label: "Review" },
-                  ...(isManager ? [{ value: "done", label: "Done" }] : []),
                 ]}
               />
-              {isManager && task.status === "review" && <Button isLoading={isSaving} onClick={() => updateStatus("done")}>Approve as Done</Button>}
             </div>
           </div>
 
           {success && <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-xs font-semibold text-emerald-700">{success}</div>}
           {error && <div className="rounded-lg border border-rose-200 bg-rose-50 p-3 text-xs font-semibold text-rose-700">{error}</div>}
-          {task.status === "review" && !isManager && <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs font-semibold text-amber-700">Waiting for manager approval</div>}
+          {task.status === "review" && <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs font-semibold text-amber-700">Waiting for admin approval</div>}
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
             <div className="space-y-6">
