@@ -4,7 +4,9 @@ import React, { useEffect, useState } from "react";
 import { CheckCircle2, CheckSquare, Clock, ListTodo } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
+import EmptyState from "@/components/ui/EmptyState";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import PageHeader from "@/components/ui/PageHeader";
 import { getUser } from "@/lib/auth";
 import reportService from "@/services/reportService";
 import taskService from "@/services/taskService";
@@ -62,13 +64,10 @@ export default function ProgressPage() {
   return (
     <DashboardLayout allowedRoles={["Member"]}>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-950">Progress</h1>
-          <p className="mt-1 text-xs font-medium text-slate-500">Your task completion and logged time summary.</p>
-        </div>
+        <PageHeader title="Progress" description="Your task completion and logged time summary." />
 
         {isLoading ? (
-          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
+          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
             <LoadingSpinner size="lg" />
           </div>
         ) : error ? (
@@ -104,7 +103,7 @@ export default function ProgressPage() {
             </Card>
           </>
         ) : (
-          <div className="rounded-xl border border-slate-200/60 bg-white p-8 text-center text-xs font-semibold text-slate-500">No progress data available.</div>
+          <EmptyState title="No progress data available" />
         )}
       </div>
     </DashboardLayout>

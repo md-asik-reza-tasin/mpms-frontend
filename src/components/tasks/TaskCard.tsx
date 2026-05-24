@@ -62,12 +62,12 @@ export default function TaskCard({ task, onEdit, onDelete, onStatusChange }: Tas
             />
           )}
           {onEdit && (
-            <Button type="button" variant="outline" size="sm" className="h-9 w-9 p-0" onClick={() => onEdit(task)} title="Edit task">
+            <Button type="button" variant="outline" size="icon" onClick={() => onEdit(task)} title="Edit task">
               <Pencil className="h-4 w-4" />
             </Button>
           )}
           {onDelete && (
-            <Button type="button" variant="outline" size="sm" className="h-9 w-9 p-0 hover:border-red-200 hover:bg-red-50 hover:text-red-600" onClick={() => onDelete(task._id)} title="Delete task">
+            <Button type="button" variant="outline" size="icon" className="hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700" onClick={() => onDelete(task._id)} title="Delete task">
               <Trash2 className="h-4 w-4" />
             </Button>
           )}

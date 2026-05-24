@@ -6,7 +6,9 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import Badge from "@/components/ui/Badge";
 import Card from "@/components/ui/Card";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import PageHeader from "@/components/ui/PageHeader";
 import Select from "@/components/ui/Select";
+import { SectionTitle } from "@/components/ui/Typography";
 import projectService from "@/services/projectService";
 import reportService from "@/services/reportService";
 import taskService from "@/services/taskService";
@@ -101,13 +103,10 @@ export default function ReportsPage() {
   return (
     <DashboardLayout allowedRoles={["Admin"]}>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-950">Reports</h1>
-          <p className="mt-1 text-xs font-medium text-slate-500">Project progress, team workload, and delivery summaries.</p>
-        </div>
+        <PageHeader title="Reports" description="Project progress, team workload, and delivery summaries." />
 
         {isLoading ? (
-          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
+          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
             <LoadingSpinner size="lg" />
           </div>
         ) : error ? (
@@ -132,7 +131,7 @@ export default function ReportsPage() {
             </div>
 
             <Card className="border-slate-200/80 bg-white">
-              <h2 className="mb-4 text-sm font-semibold text-slate-950">Project Progress</h2>
+              <SectionTitle className="mb-4 text-sm">Project Progress</SectionTitle>
               {projects.length === 0 ? (
                 <p className="text-xs font-medium text-slate-500">No projects available to report.</p>
               ) : (
@@ -162,7 +161,7 @@ export default function ReportsPage() {
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <Card className="border-slate-200/80 bg-white">
-                <h2 className="mb-4 text-sm font-semibold text-slate-950">Project Report</h2>
+                <SectionTitle className="mb-4 text-sm">Project Report</SectionTitle>
                 <Select
                   label="Select Project"
                   value={selectedProjectId}
@@ -180,7 +179,7 @@ export default function ReportsPage() {
               </Card>
 
               <Card className="border-slate-200/80 bg-white">
-                <h2 className="mb-4 text-sm font-semibold text-slate-950">User Report</h2>
+                <SectionTitle className="mb-4 text-sm">User Report</SectionTitle>
                 <Select
                   label="Select User"
                   value={selectedUserId}

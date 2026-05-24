@@ -12,6 +12,8 @@ import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import Modal from "@/components/ui/Modal";
+import { SectionTitle, MutedText } from "@/components/ui/Typography";
 import projectService from "@/services/projectService";
 import sprintService from "@/services/sprintService";
 import taskService from "@/services/taskService";
@@ -154,7 +156,7 @@ export default function ProjectDetailsPage({ params }: PageProps) {
   return (
     <DashboardLayout allowedRoles={["Admin"]}>
       {isLoading ? (
-        <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
+        <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
           <LoadingSpinner size="lg" />
         </div>
       ) : error || !project ? (
@@ -168,7 +170,7 @@ export default function ProjectDetailsPage({ params }: PageProps) {
         <div className="space-y-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0" onClick={() => router.push("/projects")}>
+              <Button variant="outline" size="icon" onClick={() => router.push("/projects")}>
                 <ArrowLeft className="h-4 w-4" />
               </Button>
               <div>
@@ -180,24 +182,24 @@ export default function ProjectDetailsPage({ params }: PageProps) {
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Button type="button" className="flex items-center gap-2" onClick={() => setModalMode("sprint")}>
-                <Plus className="h-4 w-4" /> Add Sprint
+              <Button type="button" leftIcon={<Plus className="h-4 w-4" />} onClick={() => setModalMode("sprint")}>
+                Add Sprint
               </Button>
               <Button
                 type="button"
                 variant="secondary"
-                className="flex items-center gap-2"
+                leftIcon={<Plus className="h-4 w-4" />}
                 onClick={() => {
                   setSelectedSprintId(sprints[0]?._id || "");
                   setModalMode("task");
                 }}
                 disabled={sprints.length === 0}
               >
-                <Plus className="h-4 w-4" /> Add Task
+                Add Task
               </Button>
               <Link href={`/projects/${project._id}/edit`}>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Edit className="h-4 w-4" /> Edit Project
+                <Button variant="outline" leftIcon={<Edit className="h-4 w-4" />}>
+                  Edit Project
                 </Button>
               </Link>
             </div>
@@ -206,8 +208,8 @@ export default function ProjectDetailsPage({ params }: PageProps) {
           <Card className="border-slate-200/80 bg-white">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
               <div>
-                <h2 className="text-sm font-semibold text-slate-950">Project Summary</h2>
-                <p className="mt-2 whitespace-pre-wrap text-xs leading-6 text-slate-600">{project.description || "No description provided."}</p>
+                <SectionTitle>Project Summary</SectionTitle>
+                <MutedText className="mt-2 whitespace-pre-wrap text-xs leading-6">{project.description || "No description provided."}</MutedText>
                 <div className="mt-5">
                   <div className="mb-1 flex items-center justify-between text-xs font-semibold text-slate-600">
                     <span>{completedTasks}/{totalTasks} tasks completed</span>
@@ -240,8 +242,8 @@ export default function ProjectDetailsPage({ params }: PageProps) {
 
           <div className="space-y-4">
             <div>
-              <h2 className="text-lg font-bold text-slate-950">Sprints & Tasks</h2>
-              <p className="mt-1 text-xs font-medium text-slate-500">Plan milestones, assign work, and update progress inside each sprint.</p>
+              <SectionTitle className="text-lg font-bold">Sprints & Tasks</SectionTitle>
+              <MutedText className="mt-1 text-xs font-medium">Plan milestones, assign work, and update progress inside each sprint.</MutedText>
             </div>
             <SprintList
               sprints={sprints}
@@ -266,14 +268,13 @@ export default function ProjectDetailsPage({ params }: PageProps) {
         </div>
       )}
 
-      {modalMode && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4">
-          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white p-6 shadow-xl">
-            <div className="mb-5">
-              <h3 className="text-lg font-bold text-slate-950">
-                {modalMode === "sprint" ? (editingSprint ? "Edit Sprint" : "Add Sprint") : editingTask ? "Edit Task" : "Add Task"}
-              </h3>
-            </div>
+      <Modal
+        open={!!modalMode}
+        onClose={closeModal}
+        title={modalMode === "sprint" ? (editingSprint ? "Edit Sprint" : "Add Sprint") : editingTask ? "Edit Task" : "Add Task"}
+      >
+            {modalMode && (
+              <>
             {modalMode === "sprint" ? (
               <SprintForm initialData={editingSprint} isLoading={isSaving} onSubmit={handleSprintSubmit} onCancel={closeModal} />
             ) : (
@@ -288,9 +289,9 @@ export default function ProjectDetailsPage({ params }: PageProps) {
                 onCancel={closeModal}
               />
             )}
-          </div>
-        </div>
-      )}
+              </>
+            )}
+      </Modal>
     </DashboardLayout>
   );
 }

@@ -7,9 +7,13 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import EmptyState from "@/components/ui/EmptyState";
 import Input from "@/components/ui/Input";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import Modal from "@/components/ui/Modal";
+import PageHeader from "@/components/ui/PageHeader";
 import Select from "@/components/ui/Select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 import userService from "@/services/userService";
 import { IUser, UserFormData } from "@/types";
 
@@ -234,8 +238,7 @@ export default function TeamPage() {
       <Button
         type="button"
         variant="outline"
-        size="sm"
-        className="h-9 w-9 p-0"
+        size="icon"
         onClick={() => openEditForm(member)}
         title="Edit team member"
       >
@@ -244,8 +247,8 @@ export default function TeamPage() {
       <Button
         type="button"
         variant="outline"
-        size="sm"
-        className="h-9 w-9 p-0 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700"
+        size="icon"
+        className="hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700"
         onClick={() => handleDelete(member._id)}
         title="Delete team member"
       >
@@ -258,14 +261,11 @@ export default function TeamPage() {
     <DashboardLayout allowedRoles={["Admin"]}>
       <div className="space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-950">Team & Roles</h1>
-            <p className="mt-1 text-sm text-slate-500">Manage admins and members</p>
-          </div>
-          <Button className="gap-2" onClick={openCreateForm}>
-            <Plus className="h-4 w-4" />
-            Add Team Member
-          </Button>
+          <PageHeader
+            title="Team & Roles"
+            description="Manage admins and members"
+            action={<Button leftIcon={<Plus className="h-4 w-4" />} onClick={openCreateForm}>Add Team Member</Button>}
+          />
         </div>
 
         <Card className="border-indigo-100 bg-indigo-50/50">
@@ -335,51 +335,46 @@ export default function TeamPage() {
             <LoadingSpinner size="lg" />
           </div>
         ) : users.length === 0 ? (
-          <Card className="py-12 text-center">
-            <h2 className="text-base font-semibold text-slate-950">No team members yet</h2>
-            <p className="mt-2 text-sm text-slate-500">Add a team member to start managing roles and skills.</p>
-          </Card>
+          <EmptyState title="No team members yet" description="Add a team member to start managing roles and skills." />
         ) : (
           <>
-            <div className="hidden overflow-x-auto rounded-xl border border-slate-200/60 bg-white shadow-sm lg:block">
-              <table className="w-full min-w-[980px] text-left">
-                <thead className="border-b border-slate-200 bg-slate-50 text-xs font-semibold uppercase text-slate-500">
-                  <tr>
-                    <th className="px-5 py-4">Name</th>
-                    <th className="px-5 py-4">Email</th>
-                    <th className="px-5 py-4">Role</th>
-                    <th className="px-5 py-4">Department</th>
-                    <th className="px-5 py-4">Skills</th>
-                    <th className="px-5 py-4">Test Credentials</th>
-                    <th className="px-5 py-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
+            <Table className="hidden lg:block">
+                <TableHeader className="text-xs">
+                  <TableRow className="hover:bg-transparent">
+                    <TableHead>Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Role</TableHead>
+                    <TableHead>Department</TableHead>
+                    <TableHead>Skills</TableHead>
+                    <TableHead>Test Credentials</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className="text-sm">
                   {users.map((member) => (
-                    <tr key={member._id} className="hover:bg-slate-50">
-                      <td className="px-5 py-4">
+                    <TableRow key={member._id}>
+                      <TableCell>
                         <div className="flex items-center gap-3">
                           <div className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-100 font-semibold text-slate-600">
                             {member.name ? member.name.charAt(0).toUpperCase() : <User className="h-4 w-4" />}
                           </div>
                           <span className="font-semibold text-slate-950">{member.name}</span>
                         </div>
-                      </td>
-                      <td className="px-5 py-4 text-slate-600">{member.email}</td>
-                      <td className="px-5 py-4">
+                      </TableCell>
+                      <TableCell className="text-slate-600">{member.email}</TableCell>
+                      <TableCell>
                         <Badge variant={getRoleVariant(member.role)}>{member.role}</Badge>
-                      </td>
-                      <td className="px-5 py-4 text-slate-600">{member.department || "Not assigned"}</td>
-                      <td className="px-5 py-4">{renderSkills(member.skills)}</td>
-                      <td className="px-5 py-4 text-sm text-slate-500">Shown after creation only</td>
-                      <td className="px-5 py-4">
+                      </TableCell>
+                      <TableCell className="text-slate-600">{member.department || "Not assigned"}</TableCell>
+                      <TableCell>{renderSkills(member.skills)}</TableCell>
+                      <TableCell className="text-sm text-slate-500">Shown after creation only</TableCell>
+                      <TableCell>
                         <div className="flex justify-end">{renderActions(member)}</div>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
-            </div>
+                </TableBody>
+            </Table>
 
             <div className="space-y-4 lg:hidden">
               {users.map((member) => (
@@ -420,20 +415,12 @@ export default function TeamPage() {
         )}
       </div>
 
-      {isFormOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4">
-          <Card className="max-h-[90vh] w-full max-w-2xl overflow-y-auto border-slate-200 bg-white">
-            <div className="mb-5">
-              <h2 className="text-lg font-semibold text-slate-950">
-                {editingUser ? "Edit Team Member" : "Add Team Member"}
-              </h2>
-              <p className="mt-1 text-sm text-slate-500">
-                {editingUser
-                  ? "Update role, department, and skills for this team member."
-                  : "Create test credentials that can be shared manually."}
-              </p>
-            </div>
-
+      <Modal
+        open={isFormOpen}
+        onClose={closeForm}
+        title={editingUser ? "Edit Team Member" : "Add Team Member"}
+        description={editingUser ? "Update role, department, and skills for this team member." : "Create test credentials that can be shared manually."}
+      >
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <Input
@@ -501,9 +488,7 @@ export default function TeamPage() {
                 </Button>
               </div>
             </form>
-          </Card>
-        </div>
-      )}
+      </Modal>
     </DashboardLayout>
   );
 }

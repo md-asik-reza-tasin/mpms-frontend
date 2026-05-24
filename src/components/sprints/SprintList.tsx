@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronRight, Pencil, Trash2 } from "lucide-react";
 import Button from "@/components/ui/Button";
+import EmptyState from "@/components/ui/EmptyState";
 import TaskCard from "@/components/tasks/TaskCard";
 import { ISprint, ITask } from "@/types";
 
@@ -34,12 +35,7 @@ export default function SprintList({
   const [openSprintIds, setOpenSprintIds] = useState<string[]>(sprints.map((sprint) => sprint._id));
 
   if (sprints.length === 0) {
-    return (
-      <div className="rounded-xl border border-slate-200 bg-white p-8 text-center">
-        <p className="text-sm font-semibold text-slate-700">No sprints yet.</p>
-        <p className="mt-1 text-xs text-slate-500">Add a sprint to start planning tasks for this project.</p>
-      </div>
-    );
+    return <EmptyState title="No sprints yet" description="Add a sprint to start planning tasks for this project." />;
   }
 
   const toggleSprint = (id: string) => {
@@ -68,10 +64,10 @@ export default function SprintList({
               </button>
               <div className="flex items-center gap-2">
                 <Button type="button" variant="secondary" size="sm" onClick={() => onAddTask(sprint._id)}>Add Task</Button>
-                <Button type="button" variant="outline" size="sm" className="h-9 w-9 p-0" onClick={() => onEditSprint(sprint)} title="Edit sprint">
+                <Button type="button" variant="outline" size="icon" onClick={() => onEditSprint(sprint)} title="Edit sprint">
                   <Pencil className="h-4 w-4" />
                 </Button>
-                <Button type="button" variant="outline" size="sm" className="h-9 w-9 p-0 hover:border-red-200 hover:bg-red-50 hover:text-red-600" onClick={() => onDeleteSprint(sprint._id)} title="Delete sprint">
+                <Button type="button" variant="outline" size="icon" className="hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700" onClick={() => onDeleteSprint(sprint._id)} title="Delete sprint">
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>

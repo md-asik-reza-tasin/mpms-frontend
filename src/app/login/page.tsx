@@ -4,9 +4,10 @@ import React, { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { authService } from "@/services/authService";
 import { setAuth } from "@/lib/auth";
-import Card from "@/components/ui/Card";
+import Card, { CardHeader, CardTitle } from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import { MutedText, PageTitle } from "@/components/ui/Typography";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -49,18 +50,14 @@ export default function LoginPage() {
     <div className="flex flex-col flex-1 items-center justify-center min-h-screen bg-slate-50 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-950">
-            MPMS
-          </h1>
-          <p className="text-sm text-slate-500 mt-2 font-medium">
-            Minimal Project Management System
-          </p>
+          <PageTitle className="text-3xl">MPMS</PageTitle>
+          <MutedText className="mt-2 font-medium">Minimal Project Management System</MutedText>
         </div>
 
         <Card className="shadow-lg border-slate-200/80 bg-white">
-          <h2 className="text-xl font-semibold text-slate-900 mb-6 text-center">
-            Sign in to your account
-          </h2>
+          <CardHeader className="text-center">
+            <CardTitle className="text-xl">Sign in to your account</CardTitle>
+          </CardHeader>
 
           {error && (
             <div className="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs font-medium">

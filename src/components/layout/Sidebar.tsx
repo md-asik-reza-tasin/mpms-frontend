@@ -52,7 +52,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-slate-200 bg-white transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-slate-200 bg-gray-900 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -87,7 +87,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-semibold transition-all ${
                   isActive
                     ? "bg-indigo-50 text-indigo-600"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    : "text-white hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <Icon className={`h-4.5 w-4.5 ${isActive ? "text-indigo-600" : "text-slate-400"}`} />
@@ -98,7 +98,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </nav>
 
         {/* Footer user info summary */}
-        <div className="border-t border-slate-200/80 p-4 bg-slate-50/50">
+        <div className="border-t border-slate-200/80 p-4 bg-slate-950">
           <div className="rounded-lg border border-slate-200 bg-white p-3 text-[11px]">
             <p className="font-semibold text-slate-700">Signed In As</p>
             <p className="text-slate-500 font-medium truncate mt-0.5">{user?.email}</p>

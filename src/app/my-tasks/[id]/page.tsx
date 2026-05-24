@@ -13,6 +13,7 @@ import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Select from "@/components/ui/Select";
+import { SectionTitle } from "@/components/ui/Typography";
 import { getUser } from "@/lib/auth";
 import taskService from "@/services/taskService";
 import { IActivityLog, IComment, IProject, ISprint, ITask, ITimeLog, IUser } from "@/types";
@@ -125,7 +126,7 @@ export default function MyTaskDetailPage({ params }: PageProps) {
   return (
     <DashboardLayout allowedRoles={["Member"]}>
       {isLoading ? (
-        <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
+        <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
           <LoadingSpinner size="lg" />
         </div>
       ) : error && !task ? (
@@ -168,7 +169,7 @@ export default function MyTaskDetailPage({ params }: PageProps) {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
             <div className="space-y-6">
               <Card className="border-slate-200/80 bg-white">
-                <h2 className="text-sm font-semibold text-slate-950">Details</h2>
+                <SectionTitle className="text-sm">Details</SectionTitle>
                 <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-600">{task.description || "No description provided."}</p>
                 <div className="mt-5">
                   <div className="mb-1 flex justify-between text-xs font-semibold text-slate-500">
@@ -209,7 +210,7 @@ export default function MyTaskDetailPage({ params }: PageProps) {
 
             <div className="space-y-6">
               <Card className="border-slate-200/80 bg-white">
-                <h2 className="text-sm font-semibold text-slate-950">Task Summary</h2>
+                <SectionTitle className="text-sm">Task Summary</SectionTitle>
                 <div className="mt-4 space-y-3 text-xs text-slate-600">
                   <Info icon={<UserRound className="h-4 w-4" />} label="Project" value={projectTitle || "N/A"} />
                   <Info icon={<Calendar className="h-4 w-4" />} label="Sprint" value={sprintTitle || "Backlog"} />
@@ -220,7 +221,7 @@ export default function MyTaskDetailPage({ params }: PageProps) {
               </Card>
 
               <Card className="border-slate-200/80 bg-white">
-                <h2 className="text-sm font-semibold text-slate-950">Attachments</h2>
+                <SectionTitle className="text-sm">Attachments</SectionTitle>
                 <div className="mt-4 space-y-2">
                   {task.attachments?.length ? task.attachments.map((attachment, index) => (
                     <a key={`${attachment.url}-${index}`} href={attachment.url} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-lg border border-slate-200 p-3 text-xs font-semibold text-indigo-600 hover:bg-slate-50">

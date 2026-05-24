@@ -8,7 +8,9 @@ import PriorityBadge from "@/components/tasks/PriorityBadge";
 import StatusBadge from "@/components/tasks/StatusBadge";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import EmptyState from "@/components/ui/EmptyState";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import PageHeader from "@/components/ui/PageHeader";
 import Select from "@/components/ui/Select";
 import { getUser } from "@/lib/auth";
 import taskService from "@/services/taskService";
@@ -86,10 +88,7 @@ export default function MyTasksPage() {
   return (
     <DashboardLayout allowedRoles={["Member"]}>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-950">My Tasks</h1>
-          <p className="mt-1 text-xs font-medium text-slate-500">Track assigned work, update progress, and submit work for review.</p>
-        </div>
+        <PageHeader title="My Tasks" description="Track assigned work, update progress, and submit work for review." />
 
         {success && <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-xs font-semibold text-emerald-700">{success}</div>}
         {error && <div className="rounded-lg border border-rose-200 bg-rose-50 p-3 text-xs font-semibold text-rose-700">{error}</div>}
@@ -102,11 +101,11 @@ export default function MyTasksPage() {
         </Card>
 
         {isLoading ? (
-          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
+          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
             <LoadingSpinner size="lg" />
           </div>
         ) : filteredTasks.length === 0 ? (
-          <div className="rounded-xl border border-slate-200/60 bg-white p-8 text-center text-xs font-semibold text-slate-500">No tasks found.</div>
+          <EmptyState title="No tasks found" description="No assigned tasks match the current filters." />
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {filteredTasks.map((task) => (

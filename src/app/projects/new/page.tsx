@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import ProjectForm from "@/components/projects/ProjectForm";
 import Card from "@/components/ui/Card";
+import PageHeader from "@/components/ui/PageHeader";
 import projectService from "@/services/projectService";
 import { IProject } from "@/types";
 
@@ -31,12 +32,7 @@ export default function NewProjectPage() {
   return (
     <DashboardLayout allowedRoles={["Admin"]}>
       <div className="max-w-2xl mx-auto space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-950">Create New Project</h1>
-          <p className="text-xs text-slate-500 mt-1 font-medium">
-            Setup a new project environment for your team.
-          </p>
-        </div>
+        <PageHeader title="Create New Project" description="Setup a new project environment for your team." />
 
         {error && (
           <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs font-semibold animate-in fade-in-50">

@@ -10,6 +10,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import PageHeader from "@/components/ui/PageHeader";
 import projectService from "@/services/projectService";
 import { IProject } from "@/types";
 
@@ -101,20 +102,11 @@ export default function ProjectsPage() {
   return (
     <DashboardLayout allowedRoles={["Admin"]}>
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-950">Projects</h1>
-            <p className="text-xs text-slate-500 mt-1 font-medium">
-              Manage and track your active clients and system projects.
-            </p>
-          </div>
-          <Link href="/projects/new">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              New Project
-            </Button>
-          </Link>
-        </div>
+        <PageHeader
+          title="Projects"
+          description="Manage and track your active clients and system projects."
+          action={<Link href="/projects/new"><Button leftIcon={<Plus className="h-4 w-4" />}>New Project</Button></Link>}
+        />
 
         {/* Filter bar */}
         <Card className="p-4 border-slate-200/80">
@@ -148,7 +140,7 @@ export default function ProjectsPage() {
 
         {/* Table / Error / Loading view */}
         {isLoading ? (
-          <div className="flex justify-center items-center py-24 bg-white rounded-xl border border-slate-200/60 shadow-xs">
+          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
             <LoadingSpinner size="lg" />
           </div>
         ) : error ? (

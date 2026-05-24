@@ -6,6 +6,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import ProjectForm from "@/components/projects/ProjectForm";
 import Card from "@/components/ui/Card";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import PageHeader from "@/components/ui/PageHeader";
 import projectService from "@/services/projectService";
 import { IProject } from "@/types";
 
@@ -56,12 +57,7 @@ export default function EditProjectPage({ params }: EditPageProps) {
   return (
     <DashboardLayout allowedRoles={["Admin"]}>
       <div className="max-w-2xl mx-auto space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-950">Edit Project</h1>
-          <p className="text-xs text-slate-500 mt-1 font-medium">
-            Update the project's settings, client details, and timeline.
-          </p>
-        </div>
+        <PageHeader title="Edit Project" description="Update the project's settings, client details, and timeline." />
 
         {error && (
           <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs font-semibold animate-in fade-in-50">
@@ -70,7 +66,7 @@ export default function EditProjectPage({ params }: EditPageProps) {
         )}
 
         {isLoading ? (
-          <div className="flex justify-center items-center py-24 bg-white rounded-xl border border-slate-200/60 shadow-xs">
+          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
             <LoadingSpinner size="lg" />
           </div>
         ) : (

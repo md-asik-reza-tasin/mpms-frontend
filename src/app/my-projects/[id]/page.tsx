@@ -8,7 +8,9 @@ import PriorityBadge from "@/components/tasks/PriorityBadge";
 import StatusBadge from "@/components/tasks/StatusBadge";
 import Badge from "@/components/ui/Badge";
 import Card from "@/components/ui/Card";
+import EmptyState from "@/components/ui/EmptyState";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import { MutedText, SectionTitle } from "@/components/ui/Typography";
 import { getUser } from "@/lib/auth";
 import projectService from "@/services/projectService";
 import sprintService from "@/services/sprintService";
@@ -68,7 +70,7 @@ export default function MyProjectDetailPage({ params }: PageProps) {
   return (
     <DashboardLayout allowedRoles={["Member"]}>
       {isLoading ? (
-        <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
+        <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
           <LoadingSpinner size="lg" />
         </div>
       ) : error || !project ? (
@@ -101,11 +103,11 @@ export default function MyProjectDetailPage({ params }: PageProps) {
 
           <div className="space-y-4">
             <div>
-              <h2 className="text-lg font-bold text-slate-950">Sprints</h2>
-              <p className="mt-1 text-xs font-medium text-slate-500">Expandable sprint task lists for this project.</p>
+              <SectionTitle className="text-lg font-bold">Sprints</SectionTitle>
+              <MutedText className="mt-1 text-xs font-medium">Expandable sprint task lists for this project.</MutedText>
             </div>
             {sprints.length === 0 ? (
-              <div className="rounded-xl border border-slate-200/60 bg-white p-8 text-center text-xs font-semibold text-slate-500">No sprints available.</div>
+              <EmptyState title="No sprints available" />
             ) : (
               sprints.map((sprint) => {
                 const sprintTasks = tasks.filter((task) => getId(task.sprintId) === sprint._id);

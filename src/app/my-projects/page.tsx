@@ -6,7 +6,9 @@ import { FolderKanban } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Badge from "@/components/ui/Badge";
 import Card from "@/components/ui/Card";
+import EmptyState from "@/components/ui/EmptyState";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import PageHeader from "@/components/ui/PageHeader";
 import { getUser } from "@/lib/auth";
 import projectService from "@/services/projectService";
 import taskService from "@/services/taskService";
@@ -56,19 +58,16 @@ export default function MyProjectsPage() {
   return (
     <DashboardLayout allowedRoles={["Member"]}>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-950">My Projects</h1>
-          <p className="mt-1 text-xs font-medium text-slate-500">Projects connected to your assigned tasks.</p>
-        </div>
+        <PageHeader title="My Projects" description="Projects connected to your assigned tasks." />
 
         {isLoading ? (
-          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
+          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
             <LoadingSpinner size="lg" />
           </div>
         ) : error ? (
           <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-xs font-semibold text-rose-700">{error}</div>
         ) : projects.length === 0 ? (
-          <div className="rounded-xl border border-slate-200/60 bg-white p-8 text-center text-xs font-semibold text-slate-500">No assigned projects found.</div>
+          <EmptyState title="No assigned projects found" description="Projects appear here when you have assigned tasks." />
         ) : (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {projects.map((project) => {

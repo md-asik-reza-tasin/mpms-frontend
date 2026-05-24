@@ -8,6 +8,8 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import Modal from "@/components/ui/Modal";
+import PageHeader from "@/components/ui/PageHeader";
 import Select from "@/components/ui/Select";
 import projectService from "@/services/projectService";
 import sprintService from "@/services/sprintService";
@@ -113,10 +115,7 @@ export default function TasksPage() {
   return (
     <DashboardLayout allowedRoles={["Admin"]}>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-950">Tasks</h1>
-          <p className="mt-1 text-xs font-medium text-slate-500">Monitor, filter, and manage all dashboard tasks.</p>
-        </div>
+        <PageHeader title="Tasks" description="Monitor, filter, and manage all dashboard tasks." />
 
         <Card className="border-slate-200/80 bg-white">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
@@ -132,7 +131,7 @@ export default function TasksPage() {
         </Card>
 
         {isLoading ? (
-          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-xs">
+          <div className="flex items-center justify-center rounded-xl border border-slate-200/60 bg-white py-24 shadow-sm">
             <LoadingSpinner size="lg" />
           </div>
         ) : error ? (
@@ -142,13 +141,13 @@ export default function TasksPage() {
         )}
       </div>
 
-      {editingTask && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4">
-          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white p-6 shadow-xl">
-            <div className="mb-5 flex items-center justify-between gap-4">
-              <h2 className="text-lg font-bold text-slate-950">Edit Task</h2>
-              <Button type="button" variant="outline" onClick={() => setEditingTask(null)}>Close</Button>
-            </div>
+      <Modal
+        open={!!editingTask}
+        onClose={() => setEditingTask(null)}
+        title="Edit Task"
+        footer={<div className="flex justify-end"><Button type="button" variant="outline" onClick={() => setEditingTask(null)}>Close</Button></div>}
+      >
+          {editingTask && (
             <TaskForm
               projectId={getId(editingTask.projectId)}
               sprints={sprints}
@@ -158,9 +157,8 @@ export default function TasksPage() {
               onSubmit={handleSubmit}
               onCancel={() => setEditingTask(null)}
             />
-          </div>
-        </div>
-      )}
+          )}
+      </Modal>
     </DashboardLayout>
   );
 }
