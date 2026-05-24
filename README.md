@@ -1,8 +1,6 @@
-```md
 ## Live Frontend URL
 
-[MPMS Frontend Login](https://mpms-frontend.netlify.app/login)gin
-```
+[Visit MPMS Frontend](https://mpms-frontend.netlify.app/login)
 
 # How MPMS Frontend Works
 
