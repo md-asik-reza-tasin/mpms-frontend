@@ -104,7 +104,7 @@ export default function TaskForm({
         />
         <datalist id="task-assignees">
           {users.map((user) => (
-            <option key={user._id} value={user._id}>{user.name}</option>
+            <option key={user._id} value={user._id}>{user.email}</option>
           ))}
         </datalist>
         <Input label="Estimate Hours" type="number" min={0} value={estimateHours || ""} onChange={(event) => setEstimateHours(Number(event.target.value))} disabled={isLoading} />
